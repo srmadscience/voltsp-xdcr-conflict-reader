@@ -45,4 +45,33 @@ final class XDCRMessageProcessor implements VoltStreamFunction<XdcrConflictMessa
         }
 
     }
+
+    @Override
+    public void initialize(Consumer<XdcrConflictMessage> consumer) {
+        // TODO Auto-generated method stub
+        VoltStreamFunction.super.initialize(consumer);
+        VoltXdcrConflictReaderPipeline.msg("initialize called");
+    }
+
+    @Override
+    public void nextBatchStarts(long batchId) {
+        // TODO Auto-generated method stub
+        VoltStreamFunction.super.nextBatchStarts(batchId);
+        VoltXdcrConflictReaderPipeline.msg("starting batch " + batchId);
+          }
+
+    @Override
+    public void batchProcessed(long batchId) {
+        // TODO Auto-generated method stub
+        VoltStreamFunction.super.batchProcessed(batchId);
+        VoltXdcrConflictReaderPipeline.msg("ending batch " + batchId);
+    }
+
+    @Override
+    public Type getType() {
+        // TODO Auto-generated method stub
+        VoltXdcrConflictReaderPipeline.msg("called getType");
+        return VoltStreamFunction.super.getType();
+        
+    }
 }
