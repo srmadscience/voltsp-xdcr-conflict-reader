@@ -90,11 +90,12 @@ public class VoltXdcrConflictReaderPipeline implements VoltPipeline  {
                         .withBootstrapServers(KAFKASERVER).withStartingOffset(KafkaStartingOffset.EARLIEST)
                         .withPollTimeout(Duration.ofMillis(250)).withMaxCommitRetries(3)
                         .withMaxCommitTimeout(Duration.ofSeconds(10)))
-                .processWith(new XDCRMessageKafkaToXdcrConflictMessage())
-                .processWith(new XDCRAcceptedChangeFilter(false))
-                .processWith(new XDCRActionTypeFilter(XdcrActionType.U))
-                .processWith(new XDCRMessageProcessor(this))
-                .processWith(new XDCRConflictMessageToStringConverter())
+                .processWith(new XDCRMessageKafkaToXdcrConflictMessage()) // converts Kafka to XdcrConflictMessage
+                .processWith(new XDCRAcceptedChangeFilter(false)) // Only rejected transactions
+                .processWith(new XDCRActionTypeFilter(XdcrActionType.U)) // Only updates
+                .processWith(new XDCRTableNameFilter("BUSY_USERS")) // Only BUSY_USERS
+                .processWith(new XDCRMessageProcessor(this)) // Our message processor - needs this.pkMap
+                .processWith(new XDCRConflictMessageToStringConverter()) // converts to XdcrConflictMessage String
                 .terminateWithSink(Sinks.stdout());
     }
 
