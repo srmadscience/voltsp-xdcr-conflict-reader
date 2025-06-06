@@ -11,12 +11,12 @@ final class XDCRMessageProcessor implements VoltStreamFunction<XdcrConflictMessa
     /**
      * 
      */
-    private final VoltXdcrConflictReaderWrangler voltXdcrConflictReader;
+    private final VoltXdcrConflictReaderPipeline voltXdcrConflictReader;
 
     /**
      * @param voltXdcrConflictReader
      */
-    XDCRMessageProcessor(VoltXdcrConflictReaderWrangler voltXdcrConflictReader) {
+    XDCRMessageProcessor(VoltXdcrConflictReaderPipeline voltXdcrConflictReader) {
         this.voltXdcrConflictReader = voltXdcrConflictReader;
     }
 
